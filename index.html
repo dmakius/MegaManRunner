@@ -1,0 +1,29 @@
+<html>
+	<head>
+		<title>MM RUNNER 2.0</title>
+      <script type="text/javascript" src="src/js/phaser.js"></script>
+      <script src="src/js/BootState.js"></script>
+      <script src="src/js/PreloadState.js"></script>
+      <script src="src/js/Gamestate.js"></script>
+      <script src="src/js/MenuState.js"></script>
+
+			<script src="src/js/prefabs/Megaman.js"></script>
+			<script src="src/js/prefabs/Platform.js"></script>
+			<script src="src/js/prefabs/Bullet.js"></script>
+	</head>
+
+	<body>
+		<!-- include the main game file -->
+
+    <script>
+        var MMRunner = MMRunner || {};
+        MMRunner.game = new Phaser.Game(700, 500, Phaser.AUTO, 'MMRunner');
+        MMRunner.game.state.add('BootState', MMRunner.BootState);
+        MMRunner.game.state.add('PreloadState', MMRunner.PreloadState);
+				MMRunner.game.state.add('MenuState', MMRunner.MenuState);
+        MMRunner.game.state.add('GameState', MMRunner.GameState);
+        MMRunner.game.state.start('BootState');
+    </script>
+
+	</body>
+</html>
