@@ -26,6 +26,9 @@ MMRunner.Megaman = function(game, x , y){
   this.animations.add('slideRight', Phaser.Animation.generateFrameNames('slideRight', 1, 1), 10, true);
   this.animations.add('slideLeft', Phaser.Animation.generateFrameNames('slideLeft', 1, 1), 10, true);
 
+  this.deadSound = this.game.add.audio('dead');
+  this.shootSound = this.game.add.audio('shoot');
+
   this.cursors = game.input.keyboard.createCursorKeys();
   this.shootKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 }
@@ -123,7 +126,7 @@ MMRunner.Megaman.prototype.update = function(){
     }else{
       var bullet = new MMRunner.Bullet(this.game, this.body.x - 20, this.body.y + 17, false);
     }
-    
+    this.shootSound.play();
     MMRunner.GameState.bullets.add(bullet);
     this.shootTime = this.game.time.now + 1000;
     this.nextShootTime = this.game.time.now + 250;
@@ -138,6 +141,7 @@ MMRunner.Megaman.prototype.update = function(){
 
   if(this.body.y >= 600){
     console.log("Player dead");
+    this.deadSound.play();
     this.game.state.start('MenuState');
   }
 }

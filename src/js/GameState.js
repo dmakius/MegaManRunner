@@ -19,7 +19,7 @@ MMRunner.GameState = {
     this.createPlatforms();
 
     this.game.scoreBoard = this.game.add.bitmapText(10, 10, "marioFont", "SCORE: 0" , 16);
-
+    this.landingSound = this.game.add.audio('landing');
     // this.createBadGuys();
  
     this.floorTimer = this.game.time.events.loop(3250, this.addFloor, this);
@@ -48,8 +48,9 @@ MMRunner.GameState = {
     player.body.y -= 2;
   },
   collide:function(player, floor){
-    if(player.body.checkCollision.down){
-      // console.log(player);
+    if(player.body.checkCollision.down && player.jump == true){
+      console.log(this);
+      MMRunner.GameState.landingSound.play();
     }
   },
 
