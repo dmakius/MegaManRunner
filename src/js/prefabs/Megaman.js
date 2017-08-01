@@ -11,10 +11,14 @@ MMRunner.Megaman = function(game, x , y){
   this.jump = false;
   this.nextShootTime = 0;
   this.shootTime = 0;
-  this.animations.add('standRight', Phaser.Animation.generateFrameNames('standRight', 1, 1), 10, true);
-  this.animations.add('standLeft', Phaser.Animation.generateFrameNames('standLeft', 1, 1), 10, true);
+  this.animations.add('standLeft', Phaser.Animation.generateFrameNames('standRight', 1, 1), 10, true);
+  this.animations.add('standRight', Phaser.Animation.generateFrameNames('standLeft', 1, 1), 10, true);
+  this.animations.add('shootRight', Phaser.Animation.generateFrameNames('shootRight', 1, 1), 10, true);
+  this.animations.add('shootLeft', Phaser.Animation.generateFrameNames('shootLeft', 1, 1), 10, true);
   this.animations.add('runningRight', Phaser.Animation.generateFrameNames('runRight', 1, 3), 10, true);
   this.animations.add('runningLeft', Phaser.Animation.generateFrameNames('runLeft', 1, 3), 10, true);
+  this.animations.add('shootRunRight', Phaser.Animation.generateFrameNames('shootRunRight', 1, 3), 10, true);
+  this.animations.add('shootRunLeft', Phaser.Animation.generateFrameNames('shootRunLeft', 1, 3), 10, true);
   this.animations.add('jumpLeft', Phaser.Animation.generateFrameNames('jumpLeft', 1, 1), 10, true);
   this.animations.add('jumpRight', Phaser.Animation.generateFrameNames('jumpRight', 1, 1), 10, true);
   this.animations.add('jumpShootRight', Phaser.Animation.generateFrameNames('jumpShootRight', 1, 1), 10, true);
@@ -40,15 +44,23 @@ MMRunner.Megaman.prototype.update = function(){
   }else if(this.cursors.left.isDown){
       this.body.velocity.x = -100;
       this.standingRight = false;
-      this.animations.play('runningLeft');
       this.body.height = 46;
       console.log("player hieght: "+ this.body.height);
+      if(this.playerShooting){
+         this.animations.play('shootRunLeft');
+      }else{
+         this.animations.play('runningLeft');
+      }
   }else if(this.cursors.right.isDown){
       this.body.velocity.x = 100;
       this.standingRight = true;
-      this.animations.play('runningRight');
       this.body.height = 46;
       console.log("player hieght: "+ this.body.height);
+      if(this.playerShooting){
+        this.animations.play('shootRunRight');
+      }else{
+         this.animations.play('runningRight');
+      }
   }else if(this.cursors.down.isDown){
      this.body.height = 42;
      console.log(this.body.height);
@@ -60,10 +72,20 @@ MMRunner.Megaman.prototype.update = function(){
       this.animations.play('slideLeft');
     }
   }else{
-    if(this.standingRight === false){
-      this.animations.play('standRight');
+    if(this.standingRight){
+      if(this.playerShooting){
+        console.log("shooting right")
+        this.animations.play('shootRight');
+      }else{
+        this.animations.play('standRight');
+      }  
     }else{
-      this.animations.play('standLeft');
+       if(this.playerShooting){
+         console.log("shooting right")
+        this.animations.play('shootLeft');
+      }else{
+        this.animations.play('standLeft');
+      } 
     }
   }
 
@@ -95,9 +117,9 @@ MMRunner.Megaman.prototype.update = function(){
     this.jump = false;
   }
 
-  if(this.shootKey.isDown && this.game.time.now > this.nextShootTime){
+  if(this.shootKey.isDown && this.game.time.now > this.nextShootTime && !this.cursors.down.isDown){
     if(this.standingRight){
-      var bullet = new MMRunner.Bullet(this.game, this.body.x + 60, this.body.y + 17, true);
+      var bullet = new MMRunner.Bullet(this.game, this.body.x + 65, this.body.y + 20, true);
     }else{
       var bullet = new MMRunner.Bullet(this.game, this.body.x - 20, this.body.y + 17, false);
     }
@@ -115,3 +137,7 @@ MMRunner.Megaman.prototype.update = function(){
   }
 
 }
+
+// {"filename":"shootRight","frame":{"x":75,"y":0,"w":31,"h":24},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":31,"h":24},"sourceSize":{"w":31,"h":24}},
+  // {"filename":"shootRight","frame":{"x":75,"y":0,"w":31,"h":24},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":31,"h":24},"sourceSize":{"w":31,"h":24}},
+
