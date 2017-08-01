@@ -1,10 +1,10 @@
 var MMRunner = MMRunner || {}
 
 MMRunner.Platform2 = function(game, x , y){
-  Phaser.Sprite.call(this, game, x, y, 'platform2');
+  Phaser.Sprite.call(this, game, x, y, 'platform3');
   this.enableBody = true;
   this.anchor.setTo(0.5);
-  this.scale.setTo(3,1);
+  this.scale.setTo(2,1);
 }
 
 MMRunner.Platform2.prototype = Object.create(Phaser.Sprite.prototype);

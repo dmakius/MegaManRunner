@@ -136,8 +136,8 @@ MMRunner.Megaman.prototype.update = function(){
     console.log("SHOOTING ENDING");
   }
 
+  if(this.body.y >= 600){
+    console.log("Player dead");
+    this.game.state.start('MenuState');
+  }
 }
-
-// {"filename":"shootRight","frame":{"x":75,"y":0,"w":31,"h":24},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":31,"h":24},"sourceSize":{"w":31,"h":24}},
-  // {"filename":"shootRight","frame":{"x":75,"y":0,"w":31,"h":24},"rotated":false,"trimmed":false,"spriteSourceSize":{"x":0,"y":0,"w":31,"h":24},"sourceSize":{"w":31,"h":24}},
-

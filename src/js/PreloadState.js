@@ -7,6 +7,7 @@ MMRunner.PreloadState = {
   preload: function(){
     // this.game.load.atlas('megaman', 'assets/megaman.png', 'assets/megaman.json');
     this.game.load.atlas('megaman', 'assets/spritesheet.png', 'assets/sprites.json');
+    this.game.load.image('logo', 'assets/megamanlogo.png');
     this.game.load.image('background', 'assets/background.jpg');
     this.game.load.image('platform', 'assets/floor1.png');
     this.game.load.image('bullet', 'assets/bullet.jpg');
@@ -17,6 +18,6 @@ MMRunner.PreloadState = {
   },
 
   create: function(){
-    this.game.state.start('GameState');
+    this.game.state.start('MenuState');
   }
 }

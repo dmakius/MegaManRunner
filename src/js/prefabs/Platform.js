@@ -12,7 +12,7 @@ MMRunner.Platform.prototype = Object.create(Phaser.Sprite.prototype);
 MMRunner.Platform.prototype.constructor = MMRunner.Platform;
 
 MMRunner.Platform.prototype.update = function(){
-
+this.body.velocity.x = -50;
   if(this.body.x <= -200){
     this.kill();
   }

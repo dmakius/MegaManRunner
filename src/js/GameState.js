@@ -12,28 +12,33 @@ MMRunner.GameState = {
     this.player = this.game.add.group();
     var megaman = new MMRunner.Megaman(this.game, 100, 350);
     this.player.add(megaman);
-    // console.log(this.player);
 
     this.bullets = this.game.add.group();
 
     this.createFloor();
-    // this.createPlatforms();
+    this.createPlatforms();
+
+    this.game.scoreBoard = this.game.add.bitmapText(10, 10, "marioFont", "SCORE: 0" , 16);
+
     // this.createBadGuys();
  
-    // this.floorTimer = this.game.time.events.loop(1300, this.addFloor, this);
-    //this.platform2Timer = this.game.time.events.loop(1000, this.addplatform2, this);
+    this.floorTimer = this.game.time.events.loop(3250, this.addFloor, this);
+    this.platform2Timer = this.game.time.events.loop(3500, this.addplatform2, this);
     //this.badGuyTimer = this.game.time.events.loop(1000, this.addBadGuys, this);
   },
 
   update: function(){
+    //DEBUGGING
     // this.game.debug.spriteBounds(this.player);
     // console.log(this.player[0]);
     // this.game.debug.spriteInfo(this.player[0], 32, 32, 'rgb(255,255,255)');
     // this.game.debug.spriteBounds(this.floor);
-   // this.game.debug.inputInfo(32, 32);
+    // this.game.debug.inputInfo(32, 32);
+    
     this.game.physics.arcade.collide(this.player, this.floor, this.collide);
     this.game.physics.arcade.overlap(this.player, this.floor, this.overalping);
-    //this.game.physics.arcade.collide(this.player, this.platforms, this.collide);
+    
+    this.game.physics.arcade.collide(this.player, this.platforms, this.collide);
     ///this.game.physics.arcade.collide(this.player, this.badGuys, this.collide);
   },
   overalping: function(player, floor){
@@ -51,7 +56,7 @@ MMRunner.GameState = {
   createFloor: function(){
     this.floor = this.game.add.group();
     this.floor.enableBody = true;
-    for(var i = 0; i < 8; i++){
+    for(var i = 0; i < 5; i++){
         var platform = new MMRunner.Platform(this.game,i*160,420);
         this.floor.add(platform);
       }
@@ -72,15 +77,15 @@ MMRunner.GameState = {
     console.log(badguy);
   },
   addplatform2: function(){
-    // var ranY = Math.floor(Math.random()* 500);
-    var plat2 = new MMRunner.Platform2(this.game, 800, 360);
+    var ranY = Math.floor(Math.random()* 350 + 100);
+    var plat2 = new MMRunner.Platform2(this.game, 800, ranY);
     this.platforms.add(plat2);
   },
 
   addFloor: function(){
     var gap = Math.random();
-    if(gap < 0.8){
-      var floorPiece = new MMRunner.Platform(this.game, 700, 400);
+    if(gap < 0.7){
+      var floorPiece = new MMRunner.Platform(this.game, 800, 420);
       this.floor.add(floorPiece);
     }
   }
