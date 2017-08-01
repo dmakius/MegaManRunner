@@ -7,14 +7,14 @@ MMRunner.GameState = {
     this.game.physics.startSystem(Phaser.Physics.P2);
 
     this.background = this.game.add.tileSprite(0, 0, 700, 500, 'background');
-    // this.background.autoScroll(-100, 0);
+    this.background.autoScroll(-100, 0);
 
     this.player = this.game.add.group();
     var megaman = new MMRunner.Megaman(this.game, 100, 350);
     this.player.add(megaman);
     // console.log(this.player);
 
-    // this.bullets = this.game.add.group();
+    this.bullets = this.game.add.group();
 
     this.createFloor();
     // this.createPlatforms();
@@ -51,9 +51,8 @@ MMRunner.GameState = {
   createFloor: function(){
     this.floor = this.game.add.group();
     this.floor.enableBody = true;
-
-    for(var i = 0; i < 28; i++){
-        var platform = new MMRunner.Platform(this.game,i*25,420);
+    for(var i = 0; i < 8; i++){
+        var platform = new MMRunner.Platform(this.game,i*160,420);
         this.floor.add(platform);
       }
   },

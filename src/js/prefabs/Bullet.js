@@ -1,13 +1,20 @@
 var MMRunner = MMRunner || {}
 
-MMRunner.Bullet = function(game, x , y){
+MMRunner.Bullet = function(game, x , y, forward){
   Phaser.Sprite.call(this, game, x, y, 'bullet');
   this.anchor.setTo(0.5);
-  this.scale.setTo(1.5, 1);
+  this.scale.setTo(2, 1.5);
   this.game.physics.arcade.enable(this);
   this.outOfBoundsKill = true;
   this.enableBody = true;
-  this.body.velocity.x = 250;
+  if(forward){
+  	console.log("shotting forward");
+ 	this.body.velocity.x = 250;
+  }else{
+  	console.log("shotting backword");
+  	this.body.velocity.x = -250;
+  }
+ 
 }
 
 MMRunner.Bullet.prototype = Object.create(Phaser.Sprite.prototype);

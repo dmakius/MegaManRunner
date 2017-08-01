@@ -6,6 +6,7 @@ MMRunner.Megaman = function(game, x , y){
   this.anchor.setTo(0.5,0.75);
   this.scale.setTo(2);
   this.standingRight = true;
+  this.playerShooting = false;
   this.body.gravity.y = 250;
   this.jump = false;
   this.nextShootTime = 0;
@@ -16,6 +17,8 @@ MMRunner.Megaman = function(game, x , y){
   this.animations.add('runningLeft', Phaser.Animation.generateFrameNames('runLeft', 1, 3), 10, true);
   this.animations.add('jumpLeft', Phaser.Animation.generateFrameNames('jumpLeft', 1, 1), 10, true);
   this.animations.add('jumpRight', Phaser.Animation.generateFrameNames('jumpRight', 1, 1), 10, true);
+  this.animations.add('jumpShootRight', Phaser.Animation.generateFrameNames('jumpShootRight', 1, 1), 10, true);
+  this.animations.add('jumpShootLeft', Phaser.Animation.generateFrameNames('jumpShootLeft', 1, 1), 10, true);
   this.animations.add('slideRight', Phaser.Animation.generateFrameNames('slideRight', 1, 1), 10, true);
   this.animations.add('slideLeft', Phaser.Animation.generateFrameNames('slideLeft', 1, 1), 10, true);
 
@@ -56,7 +59,6 @@ MMRunner.Megaman.prototype.update = function(){
       this.body.velocity.x = -150;
       this.animations.play('slideLeft');
     }
-
   }else{
     if(this.standingRight === false){
       this.animations.play('standRight');
@@ -71,11 +73,21 @@ MMRunner.Megaman.prototype.update = function(){
 
   if(this.jump){
     if(this.standingRight){
-      this.animations.play('jumpRight');
       this.body.height = 50;
       console.log("player hieght: "+ this.body.height);
+      if(this.playerShooting){
+        console.log("Shooting jump");
+        this.animations.play('jumpShootRight');
+       }else{
+         console.log("regular jump");
+         this.animations.play('jumpRight');
+       }
     }else{
-      this.animations.play('jumpLeft');
+        if(this.playerShooting){
+          this.animations.play('jumpShootLeft');
+        }else{
+          this.animations.play('jumpLeft');
+        }
     }
   }
 
@@ -83,13 +95,23 @@ MMRunner.Megaman.prototype.update = function(){
     this.jump = false;
   }
 
-
-
-   if(this.shootKey.isDown && this.game.time.now > this.nextShootTime){
-    var bullet = new MMRunner.Bullet(this.game, this.body.x + 45, this.body.y + 15);
+  if(this.shootKey.isDown && this.game.time.now > this.nextShootTime){
+    if(this.standingRight){
+      var bullet = new MMRunner.Bullet(this.game, this.body.x + 60, this.body.y + 17, true);
+    }else{
+      var bullet = new MMRunner.Bullet(this.game, this.body.x - 20, this.body.y + 17, false);
+    }
+    
     MMRunner.GameState.bullets.add(bullet);
     this.shootTime = this.game.time.now + 1000;
     this.nextShootTime = this.game.time.now + 250;
+    this.playerShooting = true;
+    console.log("PLAYER SHOOTING");
+  }
+
+  if(this.game.time.now > (this.nextShootTime + 200)){
+    this.playerShooting = false;
+    console.log("SHOOTING ENDING");
   }
 
 }
