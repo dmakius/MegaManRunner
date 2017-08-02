@@ -40,6 +40,9 @@ MMRunner.GameState = {
     
     this.game.physics.arcade.collide(this.player, this.platforms, this.collide);
     this.game.physics.arcade.collide(this.bullets, this.badGuys, this.killBadGuy);
+    if(!this.player.children[0].invincible){
+      this.game.physics.arcade.collide(this.player, this.badGuys, this.playerHit);
+    }
   },
   killBadGuy: function(bullet, badGuy){
     bullet.kill();
@@ -49,6 +52,10 @@ MMRunner.GameState = {
     // MMRunner.GameState.score += 100;
     // MMRunner.GameState.game.scoreBoard.setText("SCORE: " + this.score);
   },
+  playerHit: function(player, badguy){
+      player.invincible = true;
+      player.hitTimer = MMRunner.GameState.game.time.now + 2000;
+  },
   overalping: function(player, floor){
     console.log( "player colliding");
     console.log( "player gavity:" + player.body.gravity);
@@ -57,16 +64,14 @@ MMRunner.GameState = {
   },
   collide:function(player, floor){
     if(player.body.checkCollision.down && player.jump == true){
-      console.log(this);
       MMRunner.GameState.landingSound.play();
     }
   },
-
   createFloor: function(){
     this.floor = this.game.add.group();
     this.floor.enableBody = true;
     for(var i = 0; i < 5; i++){
-        var platform = new MMRunner.Platform(this.game,i*160,420);
+        var platform = new MMRunner.Platform(this.game, i*160, 420);
         this.floor.add(platform);
       }
   },
@@ -81,9 +86,9 @@ MMRunner.GameState = {
     this.badGuys.enableBody = true;
   },
   addBadGuys: function(){
-    var badguy = new MMRunner.Badguy(this.game,700, 250);
+    var badguy = new MMRunner.Badguy(this.game,700, 400);
     this.badGuys.add(badguy);
-    console.log(badguy);
+    console.log("badguy created");
   },
   addplatform2: function(){
     var ranY = Math.floor(Math.random()* 350 + 100);

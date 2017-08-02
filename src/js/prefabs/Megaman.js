@@ -6,6 +6,7 @@ MMRunner.Megaman = function(game, x , y){
   this.anchor.setTo(0.5,0.75);
   this.scale.setTo(2);
   this.standingRight = true;
+  this.invincible = false;
   this.playerShooting = false;
   this.body.gravity.y = 250;
   this.jump = false;
@@ -25,7 +26,10 @@ MMRunner.Megaman = function(game, x , y){
   this.animations.add('jumpShootLeft', Phaser.Animation.generateFrameNames('jumpShootLeft', 1, 1), 10, true);
   this.animations.add('slideRight', Phaser.Animation.generateFrameNames('slideRight', 1, 1), 10, true);
   this.animations.add('slideLeft', Phaser.Animation.generateFrameNames('slideLeft', 1, 1), 10, true);
-
+  
+  this.animations.add('hitRight', Phaser.Animation.generateFrameNames('hitRight', 1, 3), 2, true);
+  this.animations.add('hitLeft', Phaser.Animation.generateFrameNames('hitLeft', 1, 3), 10, true);
+ 
   this.deadSound = this.game.add.audio('dead');
   this.shootSound = this.game.add.audio('shoot');
 
@@ -35,6 +39,7 @@ MMRunner.Megaman = function(game, x , y){
 
 MMRunner.Megaman.prototype = Object.create(Phaser.Sprite.prototype);
 MMRunner.Megaman.prototype.constructor = MMRunner.Megaman;
+MMRunner.Megaman.prototype.hitTimer = 0;
 
 MMRunner.Megaman.prototype.update = function(){
   this.body.velocity.x = 0;
@@ -48,7 +53,6 @@ MMRunner.Megaman.prototype.update = function(){
       this.body.velocity.x = -100;
       this.standingRight = false;
       this.body.height = 46;
-      // console.log("player hieght: "+ this.body.height);
       if(this.playerShooting){
          this.animations.play('shootRunLeft');
       }else{
@@ -58,7 +62,6 @@ MMRunner.Megaman.prototype.update = function(){
       this.body.velocity.x = 100;
       this.standingRight = true;
       this.body.height = 46;
-      // console.log("player hieght: "+ this.body.height);
       if(this.playerShooting){
         this.animations.play('shootRunRight');
       }else{
@@ -66,7 +69,6 @@ MMRunner.Megaman.prototype.update = function(){
       }
   }else if(this.cursors.down.isDown){
      this.body.height = 42;
-     // console.log(this.body.height);
     if(this.standingRight){
       this.body.velocity.x = 150;
       this.animations.play('slideRight');
@@ -77,14 +79,12 @@ MMRunner.Megaman.prototype.update = function(){
   }else{
     if(this.standingRight){
       if(this.playerShooting){
-        // console.log("shooting right")
         this.animations.play('shootRight');
       }else{
         this.animations.play('standRight');
       }  
     }else{
        if(this.playerShooting){
-         // console.log("shooting right")
         this.animations.play('shootLeft');
       }else{
         this.animations.play('standLeft');
@@ -101,10 +101,8 @@ MMRunner.Megaman.prototype.update = function(){
       this.body.height = 50;
       console.log("player hieght: "+ this.body.height);
       if(this.playerShooting){
-        // console.log("Shooting jump");
         this.animations.play('jumpShootRight');
        }else{
-         // console.log("regular jump");
          this.animations.play('jumpRight');
        }
     }else{
@@ -113,6 +111,27 @@ MMRunner.Megaman.prototype.update = function(){
         }else{
           this.animations.play('jumpLeft');
         }
+    }
+  }
+  //player gets hit
+  if(this.invincible){
+    if(this.game.time.now < this.hitTimer - 1000){
+      console.log("hit animations");
+      if(this.standingRight){
+          this.animations.play('hitRight');
+      }else{
+          this.animations.play('hitLeft');
+      }
+    }
+      if(this.game.time.now % 2 == 0){
+        this.tint = 0xff0000;
+      }else{
+        this.tint = 0xffffff;
+      }
+    
+    if(this.game.time.now > this.hitTimer){
+      this.invincible =  false;
+      this.tint = 0xffffff;
     }
   }
 
@@ -131,16 +150,13 @@ MMRunner.Megaman.prototype.update = function(){
     this.shootTime = this.game.time.now + 1000;
     this.nextShootTime = this.game.time.now + 250;
     this.playerShooting = true;
-    // console.log("PLAYER SHOOTING");
   }
 
   if(this.game.time.now > (this.nextShootTime + 200)){
     this.playerShooting = false;
-    // console.log("SHOOTING ENDING");
   }
 
   if(this.body.y >= 600){
-    // console.log("Player dead");
     this.deadSound.play();
     this.game.state.start('MenuState');
   }
