@@ -28,6 +28,8 @@ MMRunner.GameState = {
   },
 
   update: function(){
+    // console.log(this.game.scoreBoard);
+    
     //DEBUGGING
     // this.game.debug.spriteBounds(this.player);
     // console.log(this.player[0]);
@@ -47,19 +49,15 @@ MMRunner.GameState = {
   killBadGuy: function(bullet, badGuy){
     bullet.kill();
     badGuy.kill();
-    //TO DO: UPDATE SCORE
-    // console.log(this.score);
-    // MMRunner.GameState.score += 100;
-    // MMRunner.GameState.game.scoreBoard.setText("SCORE: " + this.score);
+    MMRunner.GameState.score += 100;
+    MMRunner.GameState.game.scoreBoard.setText("SCORE: " + MMRunner.GameState.score);
   },
   playerHit: function(player, badguy){
       player.invincible = true;
       player.hitTimer = MMRunner.GameState.game.time.now + 2000;
   },
   overalping: function(player, floor){
-    console.log( "player colliding");
     console.log( "player gavity:" + player.body.gravity);
-    // player.body.gravity = 0;
     player.body.y -= 2;
   },
   collide:function(player, floor){
@@ -95,7 +93,6 @@ MMRunner.GameState = {
     var plat2 = new MMRunner.Platform2(this.game, 800, ranY);
     this.platforms.add(plat2);
   },
-
   addFloor: function(){
     var gap = Math.random();
     if(gap < 0.7){
