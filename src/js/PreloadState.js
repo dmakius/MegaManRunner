@@ -1,9 +1,5 @@
 var MMRunner = MMRunner || {};
 MMRunner.PreloadState = {
-  init: function(){
-
-  },
-
   preload: function(){
     // this.game.load.atlas('megaman', 'assets/megaman.png', 'assets/megaman.json');
     this.game.load.atlas('megaman', 'assets/spritesheet.png', 'assets/sprites.json');
@@ -14,7 +10,7 @@ MMRunner.PreloadState = {
     this.game.load.image('platform2', 'assets/platform2.png');
     this.game.load.image('platform3', 'assets/platform3.png');
     this.game.load.image('platform4', 'assets/platform4.png');
-    this.game.load.spritesheet('badGuy', 'assets/badGuy.png',25,32);
+    this.game.load.spritesheet('badGuy1', 'assets/badGuy1.png',34,16);
 
     //audio files
     this.game.load.audio('shoot', 'assets/audio/shoot.wav');

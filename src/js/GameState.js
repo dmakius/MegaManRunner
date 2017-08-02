@@ -17,14 +17,14 @@ MMRunner.GameState = {
 
     this.createFloor();
     this.createPlatforms();
-
-    this.game.scoreBoard = this.game.add.bitmapText(10, 10, "marioFont", "SCORE: 0" , 16);
+    this.score = 10;
+    this.game.scoreBoard = this.game.add.bitmapText(10, 10, "marioFont", "SCORE: " + this.score , 16);
     this.landingSound = this.game.add.audio('landing');
-    // this.createBadGuys();
+    this.createBadGuys();
  
     this.floorTimer = this.game.time.events.loop(3250, this.addFloor, this);
     this.platform2Timer = this.game.time.events.loop(3500, this.addplatform2, this);
-    //this.badGuyTimer = this.game.time.events.loop(1000, this.addBadGuys, this);
+    this.badGuyTimer = this.game.time.events.loop(500, this.addBadGuys, this);
   },
 
   update: function(){
@@ -39,7 +39,15 @@ MMRunner.GameState = {
     this.game.physics.arcade.overlap(this.player, this.floor, this.overalping);
     
     this.game.physics.arcade.collide(this.player, this.platforms, this.collide);
-    ///this.game.physics.arcade.collide(this.player, this.badGuys, this.collide);
+    this.game.physics.arcade.collide(this.bullets, this.badGuys, this.killBadGuy);
+  },
+  killBadGuy: function(bullet, badGuy){
+    bullet.kill();
+    badGuy.kill();
+    //TO DO: UPDATE SCORE
+    // console.log(this.score);
+    // MMRunner.GameState.score += 100;
+    // MMRunner.GameState.game.scoreBoard.setText("SCORE: " + this.score);
   },
   overalping: function(player, floor){
     console.log( "player colliding");
@@ -73,7 +81,7 @@ MMRunner.GameState = {
     this.badGuys.enableBody = true;
   },
   addBadGuys: function(){
-    var badguy = new MMRunner.Badguy(this.game,700, 400);
+    var badguy = new MMRunner.Badguy(this.game,700, 250);
     this.badGuys.add(badguy);
     console.log(badguy);
   },

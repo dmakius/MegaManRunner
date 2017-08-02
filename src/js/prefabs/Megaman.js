@@ -48,7 +48,7 @@ MMRunner.Megaman.prototype.update = function(){
       this.body.velocity.x = -100;
       this.standingRight = false;
       this.body.height = 46;
-      console.log("player hieght: "+ this.body.height);
+      // console.log("player hieght: "+ this.body.height);
       if(this.playerShooting){
          this.animations.play('shootRunLeft');
       }else{
@@ -58,7 +58,7 @@ MMRunner.Megaman.prototype.update = function(){
       this.body.velocity.x = 100;
       this.standingRight = true;
       this.body.height = 46;
-      console.log("player hieght: "+ this.body.height);
+      // console.log("player hieght: "+ this.body.height);
       if(this.playerShooting){
         this.animations.play('shootRunRight');
       }else{
@@ -66,7 +66,7 @@ MMRunner.Megaman.prototype.update = function(){
       }
   }else if(this.cursors.down.isDown){
      this.body.height = 42;
-     console.log(this.body.height);
+     // console.log(this.body.height);
     if(this.standingRight){
       this.body.velocity.x = 150;
       this.animations.play('slideRight');
@@ -77,14 +77,14 @@ MMRunner.Megaman.prototype.update = function(){
   }else{
     if(this.standingRight){
       if(this.playerShooting){
-        console.log("shooting right")
+        // console.log("shooting right")
         this.animations.play('shootRight');
       }else{
         this.animations.play('standRight');
       }  
     }else{
        if(this.playerShooting){
-         console.log("shooting right")
+         // console.log("shooting right")
         this.animations.play('shootLeft');
       }else{
         this.animations.play('standLeft');
@@ -101,10 +101,10 @@ MMRunner.Megaman.prototype.update = function(){
       this.body.height = 50;
       console.log("player hieght: "+ this.body.height);
       if(this.playerShooting){
-        console.log("Shooting jump");
+        // console.log("Shooting jump");
         this.animations.play('jumpShootRight');
        }else{
-         console.log("regular jump");
+         // console.log("regular jump");
          this.animations.play('jumpRight');
        }
     }else{
@@ -131,16 +131,16 @@ MMRunner.Megaman.prototype.update = function(){
     this.shootTime = this.game.time.now + 1000;
     this.nextShootTime = this.game.time.now + 250;
     this.playerShooting = true;
-    console.log("PLAYER SHOOTING");
+    // console.log("PLAYER SHOOTING");
   }
 
   if(this.game.time.now > (this.nextShootTime + 200)){
     this.playerShooting = false;
-    console.log("SHOOTING ENDING");
+    // console.log("SHOOTING ENDING");
   }
 
   if(this.body.y >= 600){
-    console.log("Player dead");
+    // console.log("Player dead");
     this.deadSound.play();
     this.game.state.start('MenuState');
   }
