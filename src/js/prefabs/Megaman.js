@@ -9,7 +9,7 @@ MMRunner.Megaman = function(game, x , y){
   this.invincible = false;
   this.playerShooting = false;
   this.body.gravity.y = 250;
-  this.jump = false;
+  this.jump = true;
   this.nextShootTime = 0;
   this.shootTime = 0;
   this.animations.add('standLeft', Phaser.Animation.generateFrameNames('standRight', 1, 1), 10, true);
@@ -32,6 +32,7 @@ MMRunner.Megaman = function(game, x , y){
  
   this.deadSound = this.game.add.audio('dead');
   this.shootSound = this.game.add.audio('shoot');
+  
 
   this.cursors = game.input.keyboard.createCursorKeys();
   this.shootKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -99,7 +100,7 @@ MMRunner.Megaman.prototype.update = function(){
   if(this.jump){
     if(this.standingRight){
       this.body.height = 50;
-      console.log("player hieght: "+ this.body.height);
+      //console.log("player hieght: "+ this.body.height);
       if(this.playerShooting){
         this.animations.play('jumpShootRight');
        }else{
@@ -116,7 +117,7 @@ MMRunner.Megaman.prototype.update = function(){
   //player gets hit
   if(this.invincible){
     if(this.game.time.now < this.hitTimer - 1000){
-      console.log("hit animations");
+      //console.log("hit animations");
       if(this.standingRight){
           this.animations.play('hitRight');
       }else{
@@ -158,6 +159,7 @@ MMRunner.Megaman.prototype.update = function(){
 
   if(this.body.y >= 600){
     this.deadSound.play();
+    MMRunner.GameState.gameMusic.stop();
     this.game.state.start('MenuState');
   }
 }

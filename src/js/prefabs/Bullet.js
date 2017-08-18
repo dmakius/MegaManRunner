@@ -8,10 +8,10 @@ MMRunner.Bullet = function(game, x , y, forward){
   this.outOfBoundsKill = true;
   this.enableBody = true;
   if(forward){
-  	console.log("shotting forward");
+  	//console.log("shotting forward");
  	this.body.velocity.x = 250;
   }else{
-  	console.log("shotting backword");
+  	//console.log("shotting backword");
   	this.body.velocity.x = -250;
   }
  
