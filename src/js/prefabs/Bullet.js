@@ -8,18 +8,18 @@ MMRunner.Bullet = function(game, x , y, forward){
   this.outOfBoundsKill = true;
   this.enableBody = true;
   if(forward){
-  	//console.log("shotting forward");
- 	this.body.velocity.x = 250;
+ 	  this.body.velocity.x = 250;
   }else{
-  	//console.log("shotting backword");
   	this.body.velocity.x = -250;
-  }
- 
+  } 
 }
 
 MMRunner.Bullet.prototype = Object.create(Phaser.Sprite.prototype);
 MMRunner.Bullet.prototype.constructor = MMRunner.Bullet;
 
 MMRunner.Bullet.prototype.update = function(){
-
+  if(this.body.x >= 700 || this.body.x <= -20){
+    //console.log("bullet killed")
+    this.destroy();
+  }
 }

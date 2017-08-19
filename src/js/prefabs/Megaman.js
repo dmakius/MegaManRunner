@@ -12,6 +12,8 @@ MMRunner.Megaman = function(game, x , y){
   this.jump = true;
   this.nextShootTime = 0;
   this.shootTime = 0;
+  this.dead = false;
+  this.health = 100;
   this.animations.add('standLeft', Phaser.Animation.generateFrameNames('standRight', 1, 1), 10, true);
   this.animations.add('standRight', Phaser.Animation.generateFrameNames('standLeft', 1, 1), 10, true);
   this.animations.add('shootRight', Phaser.Animation.generateFrameNames('shootRight', 1, 1), 10, true);
@@ -26,7 +28,6 @@ MMRunner.Megaman = function(game, x , y){
   this.animations.add('jumpShootLeft', Phaser.Animation.generateFrameNames('jumpShootLeft', 1, 1), 10, true);
   this.animations.add('slideRight', Phaser.Animation.generateFrameNames('slideRight', 1, 1), 10, true);
   this.animations.add('slideLeft', Phaser.Animation.generateFrameNames('slideLeft', 1, 1), 10, true);
-  
   this.animations.add('hitRight', Phaser.Animation.generateFrameNames('hitRight', 1, 3), 2, true);
   this.animations.add('hitLeft', Phaser.Animation.generateFrameNames('hitLeft', 1, 3), 10, true);
  
@@ -140,7 +141,7 @@ MMRunner.Megaman.prototype.update = function(){
     this.jump = false;
   }
 
-  if(this.shootKey.isDown && this.game.time.now > this.nextShootTime && !this.cursors.down.isDown){
+  if(this.shootKey.isDown && this.game.time.now > this.nextShootTime && !this.cursors.down.isDown && !this.dead){
     if(this.standingRight){
       var bullet = new MMRunner.Bullet(this.game, this.body.x + 65, this.body.y + 20, true);
     }else{
@@ -161,5 +162,9 @@ MMRunner.Megaman.prototype.update = function(){
     this.deadSound.play();
     MMRunner.GameState.gameMusic.stop();
     this.game.state.start('MenuState');
+  }
+
+  if(this.dead){
+    this.kill();
   }
 }

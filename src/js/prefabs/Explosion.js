@@ -17,6 +17,7 @@ MMRunner.Explosion.prototype.constructor = MMRunner.Explosion;
 MMRunner.Explosion.prototype.killTime = 0;
 MMRunner.Explosion.prototype.update = function(){
     this.killTime ++;
-    console.log("explosion die");
-
+    if(this.killTime >= 15){
+      this.destroy();
+    }
 }

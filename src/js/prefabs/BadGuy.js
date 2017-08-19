@@ -6,10 +6,10 @@ MMRunner.Badguy = function(game, x , y){
   this.scale.setTo(2);
   this.health = 10;
   this.game.physics.arcade.enable(this);
-  // this.enableBody = true;
   this.body.velocity.x = -100;
   this.animations.add('fly', [0,1,2,3,4,5],4, true);
   this.animations.play('fly');
+  this.deadSound = this.game.add.audio('badGuyHit');
 }
 
 MMRunner.Badguy.prototype = Object.create(Phaser.Sprite.prototype);
@@ -20,10 +20,11 @@ MMRunner.Badguy.prototype.update = function(){
   this.yHolder =  this.yHolder + 0.05;
   this.body.velocity.y = Math.sin(this.yHolder) * 200;
   if(this.body.x <= -20){
-    this.kill();
+    this.destroy();
   }
 
   if(this.health < 0){  
-   this.kill();
+    this.destroy();
+    this.deadSound.play();
   }
 }

@@ -16,6 +16,7 @@ MMRunner.PreloadState = {
     this.game.load.image('platform2', 'assets/platform2.png');
     this.game.load.image('platform3', 'assets/platform3.png');
     this.game.load.image('platform4', 'assets/platform4.png');
+    this.game.load.image('explosionParticle', 'assets/explosionParticle.png');
     this.game.load.spritesheet('badGuy1', 'assets/badGuy1.png',34,16);
     this.game.load.spritesheet('explosion1' , 'assets/explosion2.png', 28,31);
 
