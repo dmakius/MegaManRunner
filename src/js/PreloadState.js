@@ -13,12 +13,16 @@ MMRunner.PreloadState = {
     this.game.load.image('logo', 'assets/megamanlogo.png');
     this.game.load.image('platform', 'assets/floor1.png');
     this.game.load.image('bullet', 'assets/bullet.jpg');
+    this.game.load.image('healthBar', 'assets/health.png');
     this.game.load.image('platform2', 'assets/platform2.png');
     this.game.load.image('platform3', 'assets/platform3.png');
     this.game.load.image('platform4', 'assets/platform4.png');
     this.game.load.image('explosionParticle', 'assets/explosionParticle.png');
     this.game.load.spritesheet('badGuy1', 'assets/badGuy1.png',34,16);
     this.game.load.spritesheet('explosion1' , 'assets/explosion2.png', 28,31);
+    this.game.load.spritesheet('explosion3' , 'assets/explosion3.png', 16,16);
+    this.game.load.spritesheet('smallHealthUp' , 'assets/small_health_up.png', 12,10);
+    this.game.load.spritesheet('largeHealthUp' , 'assets/large_health_up.png', 14.5,14);
 
     //audio files
     this.game.load.audio('shoot', 'assets/audio/shoot.wav');
@@ -26,6 +30,9 @@ MMRunner.PreloadState = {
     this.game.load.audio('dead', 'assets/audio/dead.wav');
     this.game.load.audio('badGuyHit', 'assets/audio/badGuyHit.wav');
     this.game.load.audio('playerHit', 'assets/audio/hit.wav');
+    this.game.load.audio('smallHealthUp', 'assets/audio/smallHealthUp.wav');
+    this.game.load.audio('largeHealthUp', 'assets/audio/largeHealthUp.wav');
+
     this.game.load.audio('wily', 'assets/audio/wily.mp3');
   },
 

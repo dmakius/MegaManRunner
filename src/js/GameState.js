@@ -15,16 +15,26 @@ MMRunner.GameState = {
 
     this.bullets = this.game.add.group();
     this.explosions = this.game.add.group();
+    this.healthUps = this.game.add.group();
+    
+    //create health bar sprite. Hit bar graphic expands over sprite as player get damaged
+    this.game.healthBar = this.game.add.sprite(50, 50, 'healthBar');
+    this.game.hitBar = this.game.add.graphics();
+    this.game.playerDamage = 0;
+    this.game.hitBar.beginFill(0x000);
+    this.game.hitBar.drawRect(50, 50, 20, this.game.playerDamage);
+
 
     this.createFloor();
     this.createPlatforms();
     this.score = 0;
     this.game.scoreBoard = this.game.add.bitmapText(10, 10, "marioFont", "SCORE: " + this.score , 16);
-    this.game.healthBoard = this.game.add.bitmapText(500, 10, "marioFont", "HEALTH: 100% ", 16);
     this.landingSound = this.game.add.audio('landing');
     this.hitSound = this.game.add.audio('playerHit');
     this.gameMusic = this.game.add.audio('wily', 0.25, true);
     this.deadMusic = this.game.add.audio('dead');
+    this.largeHealthUpMusic = this.game.add.audio('largeHealthUp');
+    this.smallHealthUpMusic = this.game.add.audio('smallHealthUp');
     this.gameMusic.play();
     this.createBadGuys();
     this.floorTimer = this.game.time.events.loop(3250, this.addFloor, this);
@@ -46,6 +56,11 @@ MMRunner.GameState = {
     this.game.physics.arcade.collide(this.player, this.platforms, this.collide);
     this.game.physics.arcade.collide(this.player, this.platforms, this.overalpingPlatforms);
 
+    this.game.physics.arcade.collide(this.healthUps, this.floor);
+    this.game.physics.arcade.collide(this.healthUps, this.platforms);
+
+    this.game.physics.arcade.collide(this.player, this.healthUps, this.increaseHealth);
+
     this.game.physics.arcade.collide(this.bullets, this.badGuys, this.killBadGuy);
     if(!this.player.children[0].invincible){
       this.game.physics.arcade.collide(this.player, this.badGuys, this.playerHit);
@@ -54,12 +69,37 @@ MMRunner.GameState = {
        this.game.gameOverText =  this.game.add.bitmapText(this.game.world.centerX, this.game.world.centerY, "marioFont", "GAME OVER" , 48);
     }
   },
+
+  increaseHealth: function(player, healthUp){
+    if(healthUp.key === "smallHealthUp"){
+      MMRunner.GameState.game.playerDamage -= 15;
+      MMRunner.GameState.smallHealthUpMusic.play();
+    }else if(healthUp.key === "largeHealthUp"){
+      MMRunner.GameState.game.playerDamage -= 50;
+      MMRunner.GameState.largeHealthUpMusic.play();
+    }
+    //playerDamage can only be positive
+    if(MMRunner.GameState.game.playerDamage < 0){MMRunner.GameState.game.playerDamage = 0}
+    console.log("PlayerDamage healthUp: " + MMRunner.GameState.game.playerDamage);
+    MMRunner.GameState.changeHealthBar();
+    healthUp.destroy();
+  },
+
   killBadGuy: function(bullet, badGuy){
     bullet.kill();
     badGuy.health -= 100;
-   
+  
     var newExplosion = new MMRunner.Explosion(MMRunner.GameState.game, badGuy.x, badGuy.y);
     MMRunner.GameState.explosions.add(newExplosion);
+    var ranHealth = Math.random();
+    if(ranHealth > 0.70 && ranHealth < 0.90){
+       var newHealthUp = new MMRunner.SmallHealthUp(MMRunner.GameState.game, badGuy.x, badGuy.y);
+       MMRunner.GameState.healthUps.add(newHealthUp);
+    }else if(ranHealth > 0.90){
+       var newHealthUp = new MMRunner.LargeHealthUp(MMRunner.GameState.game, badGuy.x, badGuy.y);
+       MMRunner.GameState.healthUps.add(newHealthUp);
+    }
+    
     MMRunner.GameState.score += 100;
     MMRunner.GameState.game.scoreBoard.setText("SCORE: " + MMRunner.GameState.score);
   }, 
@@ -67,13 +107,20 @@ MMRunner.GameState = {
   playerHit: function(player, badguy){
     MMRunner.GameState.hitSound.play();
     player.invincible = true;
-    player.health -= 100;
-    if(player.health <= 0){
+    MMRunner.GameState.game.playerDamage += 25;
+    console.log("PlayerDamage Hit: " + MMRunner.GameState.game.playerDamage);
+    MMRunner.GameState.changeHealthBar();
+    if(MMRunner.GameState.game.playerDamage >= 130){
       player.dead = true;
       MMRunner.GameState.gameOver(player);
     }
     player.hitTimer = MMRunner.GameState.game.time.now + 2000;
-    MMRunner.GameState.game.healthBoard.setText("HEALTH: " + player.health + "%");
+  },
+
+  changeHealthBar: function(){
+    this.game.hitBar.clear();
+    this.game.hitBar.beginFill(0x000);
+    this.game.hitBar.drawRect(50, 50, 20,this.game.playerDamage);
   },
 
   gameOver: function(player){
