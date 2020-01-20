@@ -23,3 +23,8 @@ MMRunner.Bullet.prototype.update = function(){
     this.destroy();
   }
 }
+MMRunner.Bullet.prototype.deflect = function(){
+ this.body.velocity.x *= -1;
+ this.body.velocity.x += -300;
+ 
+}

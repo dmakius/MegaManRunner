@@ -6,12 +6,14 @@
       <script src="src/js/PreloadState.js"></script>
       <script src="src/js/Gamestate.js"></script>
       <script src="src/js/MenuState.js"></script>
+      <script src="src/js/CreditState.js"></script>
 
 			<script src="src/js/prefabs/Megaman.js"></script>
 			<script src="src/js/prefabs/Platform.js"></script>
 			<script src="src/js/prefabs/Platform2.js"></script>
 			<script src="src/js/prefabs/Bullet.js"></script>
 			<script src="src/js/prefabs/BadGuy.js"></script>
+      <script src="src/js/prefabs/BadGuy2.js"></script>
       <script src="src/js/prefabs/Explosion.js"></script>
       <script src="src/js/prefabs/SmallHealthUp.js"></script>
       <script src="src/js/prefabs/LargeHealthUp.js"></script>
@@ -27,6 +29,7 @@
         MMRunner.game.state.add('PreloadState', MMRunner.PreloadState);
 				MMRunner.game.state.add('MenuState', MMRunner.MenuState);
         MMRunner.game.state.add('GameState', MMRunner.GameState);
+        MMRunner.game.state.add('CreditState', MMRunner.CreditState);
         MMRunner.game.state.start('BootState');
     </script>
 

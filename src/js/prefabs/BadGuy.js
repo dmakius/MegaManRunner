@@ -1,6 +1,6 @@
 var MMRunner = MMRunner || {}
 
-MMRunner.Badguy = function(game, x , y){
+MMRunner.Badguy1 = function(game, x , y){
   Phaser.Sprite.call(this, game, x, y, 'badGuy1');
   this.anchor.setTo(0.5);
   this.scale.setTo(2);
@@ -12,11 +12,11 @@ MMRunner.Badguy = function(game, x , y){
   this.deadSound = this.game.add.audio('badGuyHit');
 }
 
-MMRunner.Badguy.prototype = Object.create(Phaser.Sprite.prototype);
-MMRunner.Badguy.prototype.constructor = MMRunner.Badguy;
+MMRunner.Badguy1.prototype = Object.create(Phaser.Sprite.prototype);
+MMRunner.Badguy1.prototype.constructor = MMRunner.Badguy;
 
-MMRunner.Badguy.prototype.yHolder = 0;
-MMRunner.Badguy.prototype.update = function(){
+MMRunner.Badguy1.prototype.yHolder = 0;
+MMRunner.Badguy1.prototype.update = function(){
   this.yHolder =  this.yHolder + 0.05;
   this.body.velocity.y = Math.sin(this.yHolder) * 200;
   if(this.body.x <= -20){

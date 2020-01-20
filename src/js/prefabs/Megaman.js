@@ -14,6 +14,7 @@ MMRunner.Megaman = function(game, x , y){
   this.shootTime = 0;
   this.dead = false;
   this.health = 130;
+  
   this.animations.add('standLeft', Phaser.Animation.generateFrameNames('standRight', 1, 1), 10, true);
   this.animations.add('standRight', Phaser.Animation.generateFrameNames('standLeft', 1, 1), 10, true);
   this.animations.add('shootRight', Phaser.Animation.generateFrameNames('shootRight', 1, 1), 10, true);
